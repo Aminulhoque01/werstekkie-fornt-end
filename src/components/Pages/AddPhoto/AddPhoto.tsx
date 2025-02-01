@@ -149,11 +149,10 @@ const AddPhoto: React.FC = () => {
 
         {/* Next Button */}
         <div className="flex justify-end">
-          <Link href="/enhance-profile">
-            <button className="px-6 py-2 bg-primary hover:bg-[#193f72] transition-all duration-300 text-white rounded-lg">
-              Next →
-            </button>
-          </Link>
+          
+          <button className="px-6 py-2 bg-primary hover:bg-[#193f72] transition-all duration-300 text-white rounded-lg">
+            Next →
+          </button>
         </div>
       </div>
     </div>

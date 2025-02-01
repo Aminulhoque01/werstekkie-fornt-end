@@ -12,8 +12,9 @@ export const metadata: Metadata = {
 
 const robotoMono = Roboto_Mono({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-roboto-mono",
+  subsets: ["latin-ext"],
+  style: ['normal'],
+  
 });
 export default function RootLayout({
   children,

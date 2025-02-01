@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 // Define a base query that accesses the Redux state for the token
 const baseQuery = fetchBaseQuery({
-  baseUrl: `https://api.hortspec.com/api/v1`,
+  baseUrl: `https://aminula5000.sobhoy.com/api/v1`,
   // baseUrl: `http://192.168.10.163:7575/api/v1`,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;

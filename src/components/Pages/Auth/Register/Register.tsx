@@ -24,11 +24,13 @@ const Register = () => {
 
     try {
       const res = await registerUser(registrationData).unwrap();
+      console.log(res)
+
       toast.success(res.message);
-      // router.push(
-      //   `/verify-email?email=${registrationData.email}&type=register`
-      // );
-      router.push("/add-photos");
+      router.push(
+        `/verify-email?email=${registrationData.email}&type=register`
+      );
+      // router.push("/add-photos");
     } catch (error) {
       console.log(error);
     }
@@ -106,15 +108,7 @@ const Register = () => {
         </div>
       </div>
       {/* Right Side */}
-      {/* <div className="hidden md:block w-1/2 relative">
-        <Image
-          src={sniginpic}
-          alt="Register Banner"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-l-lg"
-        />
-      </div> */}
+      
     </div>
   );
 };

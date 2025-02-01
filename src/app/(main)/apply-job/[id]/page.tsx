@@ -1,5 +1,4 @@
-
-import JobDetailsPage from "@/components/Pages/JobDetails/page";
+import JobPage from "@/components/Pages/ApplyJob/page";
 import { Metadata } from "next";
 import React from "react";
 
@@ -9,7 +8,7 @@ export const metadata: Metadata = {
   keywords: ["my message", "page", "example"],
 };
 const page = () => {
-  return <JobDetailsPage />;
+  return <JobPage />;
 };
 
 export default page;

@@ -7,10 +7,11 @@ import { FiMenu, FiX } from "react-icons/fi"; // For the mobile menu icons
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Browser Jobs", href: "/browser-job" },
+  { name: "Browse Jobs", href: "/browser-job" },
   { name: "About Us", href: "/about-us" },
   { name: "Contact Us", href: "/contact-us" },
-  { name: "Apply", href: "/apply" },
+  { name: "Blog", href: "/blog" },
+  { name: "Apply", href: "/apply-job" },
 ];
 
 const Navbar = () => {

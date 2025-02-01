@@ -1,5 +1,5 @@
 
-import JobDetailsPage from "@/components/Pages/JobDetails/page";
+import Contact from "@/components/Pages/ContactUs/page";
 import { Metadata } from "next";
 import React from "react";
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   keywords: ["my message", "page", "example"],
 };
 const page = () => {
-  return <JobDetailsPage />;
+  return <Contact />;
 };
 
 export default page;

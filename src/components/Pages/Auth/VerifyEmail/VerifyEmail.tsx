@@ -17,6 +17,7 @@ import sniginpic from "@/assets/singnpic.jpg"
 
 const VerifyEmail = () => {
   const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
+  console.log(verifyEmail)
   const [forgotPassword] = useForgotPasswordMutation();
   const [oneTimeCode, setOneTimeCode] = useState<string>("");
   const router = useRouter();

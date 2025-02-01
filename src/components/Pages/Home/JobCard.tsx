@@ -1,76 +1,72 @@
-import React from "react";
+
+
+
+"use client";
+
+import { useState } from "react";
+import { FaMapLocation } from "react-icons/fa6";
+import { PiBagSimpleDuotone } from "react-icons/pi";
+import { GoClock } from "react-icons/go";
+import { useGetAllJobsSearchQuery } from "@/redux/features/alljobSearch/alljobSearch";
+// import { useGetAllJobsQuery } from "@/redux/features/job/job";
 
 const JobCard = () => {
-  const jobs = Array(6).fill({
-    title: "Digital Marketing Manager",
-    company: "Ali Baba",
-    location: "New York, NY",
-    time: "1h ago",
-    type: "Full time",
-    level: "Senior",
-    salary: "$13k",
-    description:
-      "Interested candidates are encouraged to send their CV and a cover letter with the subject line Application for Marketing Manager. Applications will be accepted until 23 February.",
-  });
+  const [page, setPage] = useState(1);
+  const [title, setTitle] = useState("");
+  const limit = 6;
+
+  const { data, error, isLoading } = useGetAllJobsSearchQuery({ page, limit, title });
+
+  const alldata = data?.data?.attributes;
+
+
+  if (isLoading) return <p>Loading jobs...</p>;
+  if (error) return <p>Error loading jobs!</p>;
+  if (!data?.data?.attributes.length) return <p>No jobs found.</p>;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 p-4 sm:p-6 max-w-[1400px] mx-auto">
-      {jobs.map((job, index) => (
-        <div
-          key={index}
-          className="border rounded-lg shadow-sm p-4 sm:p-6 bg-white hover:shadow-md transition-shadow duration-300"
-        >
-          {/* Job Title and Salary */}
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold">{job.title}</h2>
-            <span className="text-blue-600 font-bold">{job.salary}</span>
-          </div>
-
-          {/* Company, Location, and Time */}
-          <div className="flex items-center text-gray-500 text-sm mt-2 flex-wrap">
-            <span>{job.company}</span>
-            <span className="mx-2 hidden sm:inline">•</span>
-            <span>{job.location}</span>
-            <span className="mx-2 hidden sm:inline">•</span>
-            <span>{job.time}</span>
-          </div>
-
-          {/* Job Description */}
-          <p className="text-gray-700 text-sm mt-4 line-clamp-3">
-            {job.description}
-          </p>
-
-          {/* Job Tags and Bookmark Button */}
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex gap-2">
-              <span className="px-3 py-1 bg-gray-200 rounded-full text-sm">
-                {job.level}
-              </span>
-              <span className="px-3 py-1 bg-gray-200 rounded-full text-sm">
-                {job.type}
-              </span>
+    <div className="max-w-[1400px] mx-auto p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-6">
+        {alldata.map((job: any) => (
+          <div
+            key={job._id}
+            className="border rounded-lg shadow-sm p-4 bg-white hover:shadow-md transition-shadow duration-300"
+          >
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-semibold">{job.title}</h2>
+              <span className="text-blue-600 font-bold">${job.salary}</span>
             </div>
-            <button className="text-gray-400 hover:text-gray-600 transition">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </button>
+            <div className="text-gray-500 text-sm mt-2 flex flex-wrap items-center space-x-5">
+              <div>
+                <span className="text-blue-500">{job.company}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <FaMapLocation />
+                <div>{job.location}</div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <PiBagSimpleDuotone />
+                <div>{job.employmentType}</div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <GoClock />
+                <div>{job.posted}</div>
+              </div>
+            </div>
+            <p className="text-gray-700 text-sm mt-4 line-clamp-3">{job.description}</p>
+
+            <div className="flex items-center space-x-5 py-5">
+              <div className='border rounded-md px-3 py- py-2'>{job.experinceLavel}</div>
+              <div className='border  rounded-md px-3 py-2  '>{job.employmentType}</div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      
     </div>
   );
 };
 
 export default JobCard;
+

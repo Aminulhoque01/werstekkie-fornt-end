@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="w-full  px-5 py-16">
+    <footer className="w-full max-w-[1400px] mx-auto  px-5 py-16 m-auto">
       <div className="w-full md:container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo and Description */}
         <div>
@@ -96,21 +96,21 @@ const Footer = () => {
           </ul>
           <div className="mt-10 flex space-x-4">
             <a
-              href="#"
+              href="https://www.facebook.com/"
               className="text-blue-600 hover:text-blue-700 text-3xl px-3"
               aria-label="Facebook"
             >
               <FaFacebookF />
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/"
               className="text-blue-500 hover:text-blue-600 text-3xl px-3"
               aria-label="LinkedIn"
             >
               <FaLinkedinIn />
             </a>
             <a
-              href="#"
+              href="https://www.youtube.com"
               className="text-red-600 hover:text-red-700 text-3xl px-5 "
               aria-label="YouTube"
             >
@@ -133,114 +133,6 @@ export default Footer;
 
 
 
-// import React from 'react';
-// import { FaFacebookF, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 
-// const Footer: React.FC = () => {
-//   return (
-//     <footer className="w-[1400] m-auto bg-gray-50 text-gray-700 py-8">
-//       <div className="container mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-//         {/* Left Section: Logo and Description */}
-//         <div>
-//           <div className="mb-4">
-//             <h2 className="text-xl font-bold text-blue-700 bg-blue-100 inline-block px-2 py-1 rounded">
-//               WERKSTEKKIE
-//             </h2>
-//           </div>
-//           <p className="text-sm">
-//             Their team is incredibly professional, responsive, and dedicated to
-//             delivering results. Thanks to their innovative strategies and
-//             exceptional support.
-//           </p>
-//         </div>
-
-//         {/* Middle Sections: Links */}
-//         <div>
-//           <h3 className="font-semibold text-lg mb-3">Our Company</h3>
-//           <ul className="space-y-2 text-sm">
-//             <li>
-//               <a href="#" className="hover:underline">
-//                 About Us
-//               </a>
-//             </li>
-//             <li>
-//               <a href="#" className="hover:underline">
-//                 Contact Us
-//               </a>
-//             </li>
-//             <li>
-//               <a href="#" className="hover:underline">
-//                 Privacy Policy
-//               </a>
-//             </li>
-//           </ul>
-//         </div>
-
-//         <div>
-//           <h3 className="font-semibold text-lg mb-3">Products</h3>
-//           <ul className="space-y-2 text-sm">
-//             <li>
-//               <a href="#" className="hover:underline">
-//                 New Jobs
-//               </a>
-//             </li>
-//             <li>
-//               <a href="#" className="hover:underline">
-//                 Browse All Jobs
-//               </a>
-//             </li>
-//           </ul>
-//         </div>
-
-//         {/* Right Section: Contact and Social Icons */}
-//         <div>
-//           <h3 className="font-semibold text-lg mb-3">Contact</h3>
-//           <ul className="space-y-2 text-sm">
-//             <li>
-//               <a href="#" className="hover:underline">
-//                 Contact
-//               </a>
-//             </li>
-//             <li>
-//               <a href="#" className="hover:underline">
-//                 About Us
-//               </a>
-//             </li>
-//           </ul>
-//           <div className="mt-4 flex space-x-4">
-//             <a
-//               href="#"
-//               className="text-blue-600 hover:text-blue-700"
-//               aria-label="Facebook"
-//             >
-//               <FaFacebookF />
-//             </a>
-//             <a
-//               href="#"
-//               className="text-blue-500 hover:text-blue-600"
-//               aria-label="LinkedIn"
-//             >
-//               <FaLinkedinIn />
-//             </a>
-//             <a
-//               href="#"
-//               className="text-red-600 hover:text-red-700"
-//               aria-label="YouTube"
-//             >
-//               <FaYoutube />
-//             </a>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Bottom Section: Copyright */}
-//       <div className="mt-8 text-center text-sm text-gray-500">
-//         ©2025 Werkstekkie. All rights reserved.
-//       </div>
-//     </footer>
-//   );
-// };
-
-// export default Footer;
 
 

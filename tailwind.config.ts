@@ -20,6 +20,9 @@ export default {
       padding: "1rem",
     },
     extend: {
+      fontFamily: {
+        title: ["Open Sans", "serif"],
+      },
       colors: {
         primary: "#004BAD",
         secondary: "#F5F9FF",
@@ -27,6 +30,7 @@ export default {
         hoverText: "#dcbb87",
       },
     },
+  
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],

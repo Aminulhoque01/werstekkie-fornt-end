@@ -28,6 +28,7 @@ const MyProfile = () => {
   const [newCoverPhoto, setNewCoverPhoto] = useState<string | null>(null); // Preview new image
   const [additionalPhotos, setAdditionalPhotos] = useState<Photo[]>([]);
   const [isProfileEdit, setIsProfileEdit] = useState<boolean>(false);
+
   const handleAdditionalPhotoUpload = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -38,6 +39,7 @@ const MyProfile = () => {
     }));
     setAdditionalPhotos((prevImages) => [...prevImages, ...newImages]);
   };
+
   const additionalPhotoUploadButton = (
     <label htmlFor="additional-photo-upload" className="cursor-pointer">
       <div className="size-16 rounded-full border-2 border-dashed border-gray-950 flex items-center justify-center">
@@ -53,11 +55,13 @@ const MyProfile = () => {
       />
     </label>
   );
+
   const handleDeleteAdditionalPhoto = (id: string) => {
     setAdditionalPhotos((prevImages) =>
       prevImages.filter((image) => image.id !== id)
     );
   };
+  
   const discover = {
     _id: "1",
     fullName: "John Doe",
