@@ -8,7 +8,6 @@ import { loggedUser, logoutUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { LoginFormValues } from "@/types/authTypes";
 import { Checkbox, Form } from "antd";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

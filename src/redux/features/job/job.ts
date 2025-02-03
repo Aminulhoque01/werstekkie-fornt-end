@@ -1,18 +1,3 @@
-// import { baseApi } from "../api/baseApi";
-
-
-// const jobApi = baseApi.injectEndpoints({
-//   endpoints: (builder) => ({
-//     getAllJobs: builder.query({
-//       query: ({page, limit }) => ({
-//         url: `/job/all-jobs?page=${page}&limit=${limit}`,
-//         method: "GET",
-//       }),
-//     }),
-//   }),
-// });
-
-// export const { useGetAllJobsQuery } = jobApi;
 
 
 import { baseApi } from "../api/baseApi";

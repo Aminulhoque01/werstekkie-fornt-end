@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 
 export default function BlogPost() {
     const params = useParams();
+    
     const { id } = params;
     return (
         <div className="min-h-screen px-4 py-8  mt-10">
