@@ -6,13 +6,28 @@ import {
   BaseQueryFn,
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "sonner";
+import Cookies from "js-cookie"; 
 
 // Define a base query that accesses the Redux state for the token
+// const baseQuery = fetchBaseQuery({
+//   baseUrl: `https://aminula5000.sobhoy.com/api/v1`,
+//   // baseUrl: `http://192.168.10.163:7575/api/v1`,
+//   prepareHeaders: (headers, { getState }) => {
+//     const token = (getState() as RootState).auth.token;
+
+//     if (token) {
+//       headers.set("Authorization", `Bearer ${token}`);
+//     }
+
+//     return headers;
+//   },
+// });
+
+
 const baseQuery = fetchBaseQuery({
   baseUrl: `https://aminula5000.sobhoy.com/api/v1`,
-  // baseUrl: `http://192.168.10.163:7575/api/v1`,
-  prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token;
+  prepareHeaders: (headers) => {
+    const token = Cookies.get("token"); // Get token from cookies
 
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
@@ -57,6 +72,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ["company"],
+  tagTypes: ["company","MyJob","SavedJobs","MYprofile"],
   endpoints: () => ({}),
 });

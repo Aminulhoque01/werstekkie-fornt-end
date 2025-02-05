@@ -1,9 +1,16 @@
 // "use client";
 // import React, { useState, useEffect } from "react";
 // import logo from "@/assets/logo/dating-logo.png";
+// import userIcon from "@/assets/logo/user.png"; 
 // import Image from "next/image";
 // import Link from "next/link";
-// import { FiMenu, FiX } from "react-icons/fi"; // For the mobile menu icons
+// import { FiMenu, FiX } from "react-icons/fi"; 
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/redux/store";
+// import { useAppDispatch } from "@/redux/hooks";
+// import { logoutUser, loggedUser } from "@/redux/features/auth/authSlice";
+// import Cookies from "js-cookie"; 
+// import { ImageBaseUrl } from "@/redux/features/blog/ImageBaseUrl";
 
 // const navLinks = [
 //   { name: "Home", href: "/" },
@@ -17,14 +24,25 @@
 // const Navbar = () => {
 //   const [isScrolled, setIsScrolled] = useState(false);
 //   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+//   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); 
+
+//   const dispatch = useAppDispatch();
+//   const user = useSelector((state:any) => state.auth.user);
+
+//   useEffect(() => {
+//     // Check cookies for existing user data on page load
+//     const token = Cookies.get("token");
+//     const userData = Cookies.get("user") ? JSON.parse(Cookies.get("user") as string) : null;
+//     const refreshToken = Cookies.get("refreshToken");
+
+//     if (token && userData && refreshToken) {
+//       dispatch(loggedUser({ user: userData, token, refreshToken }));
+//     }
+//   }, [dispatch]);
 
 //   useEffect(() => {
 //     const handleScroll = () => {
-//       if (window.scrollY > 10) {
-//         setIsScrolled(true);
-//       } else {
-//         setIsScrolled(false);
-//       }
+//       setIsScrolled(window.scrollY > 10);
 //     };
 
 //     window.addEventListener("scroll", handleScroll);
@@ -33,15 +51,16 @@
 //     };
 //   }, []);
 
+//   const handleLogout = () => {
+//     dispatch(logoutUser()); 
+//     Cookies.remove("token");
+//     Cookies.remove("user");
+//     Cookies.remove("refreshToken");
+//   };
+
 //   return (
-//     <header
-//       className={`w-full h-[105px] fixed top-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white/70 backdrop-blur-md" : "bg-transparent"
-//         }`}
-//     >
-//       <nav
-//         className="w-full max-w-[1400px] mx-auto px-4 md:px-8 flex justify-between items-center h-full"
-//         role="navigation"
-//       >
+//     <header className={`w-full h-[105px] fixed top-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white/70 backdrop-blur-md" : "bg-transparent"}`}>
+//       <nav className="w-full max-w-[1400px] mx-auto px-4 md:px-8 flex justify-between items-center h-full">
 //         {/* Logo */}
 //         <Link href="/">
 //           <Image src={logo} alt="logo" width={130} height={80} />
@@ -58,21 +77,50 @@
 //           ))}
 //         </ul>
 
-//         {/* Sign In Button (Desktop) */}
-//         <div className="hidden md:block">
-//           <Link href="/register">
-//             <button className="px-5 py-2 bg-primary text-white rounded-lg">
-//               Sign In
-//             </button>
-//           </Link>
+//         {/* User Section */}
+//         <div className="hidden md:block relative">
+//           {user ? (
+//             <div className="relative">
+//               <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
+//                 <Image 
+//                   src={user?.profileImage ? `${ImageBaseUrl}${user?.profileImage}` : userIcon} 
+//                   alt="User" 
+//                   width={40} 
+//                   height={40} 
+//                   className="w-[40px] h-[40px] rounded-full cursor-pointer" 
+//                 />
+//               </button>
+
+//               {isUserMenuOpen && (
+//                 <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
+//                   <Link href="/my-profile">
+//                     <p className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</p>
+//                   </Link>
+//                   <Link href="/my-jobs">
+//                     <p className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Jobs</p>
+//                   </Link>
+//                   <Link href="/my-saveJobs">
+//                     <p className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Save Jobs</p>
+//                   </Link>
+//                   <Link href="/faq">
+//                     <p className="px-4 py-2 hover:bg-gray-100 cursor-pointer">FAQ</p>
+//                   </Link>
+//                   <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer">
+//                     Logout
+//                   </button>
+//                 </div>
+//               )}
+//             </div>
+//           ) : (
+//             <Link href="/register">
+//               <button className="px-5 py-2 bg-primary text-white rounded-lg">Sign In</button>
+//             </Link>
+//           )}
 //         </div>
 
 //         {/* Mobile Menu Toggle */}
 //         <div className="md:hidden flex items-center">
-//           <button
-//             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-//             className="text-2xl"
-//           >
+//           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-2xl">
 //             {isMobileMenuOpen ? <FiX /> : <FiMenu />}
 //           </button>
 //         </div>
@@ -84,25 +132,38 @@
 //           <ul className="flex flex-col items-center gap-4 py-4">
 //             {navLinks.map((link) => (
 //               <li key={link.name}>
-//                 <Link
-//                   href={link.href}
-//                   onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
-//                   className="hover:text-primary"
-//                 >
+//                 <Link href={link.href} onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary">
 //                   {link.name}
 //                 </Link>
 //               </li>
 //             ))}
 //           </ul>
+
+//           {/* Mobile User Section */}
 //           <div className="flex justify-center py-4">
-//             <Link href="/register">
-//               <button
-//                 onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
-//                 className="px-5 py-2 bg-primary text-white rounded-lg"
-//               >
-//                 Sign In
-//               </button>
-//             </Link>
+//             {user ? (
+//               <div className="flex flex-col items-center">
+//                 <Image 
+//                   src={user?.profileImage ? `${ImageBaseUrl}${user?.profileImage}` : userIcon} 
+//                   alt="User" 
+//                   width={40} 
+//                   height={40} 
+//                   className="rounded-full mb-2" 
+//                 />
+//                 <Link href="/my-profile">
+//                   <button onClick={() => setIsMobileMenuOpen(false)} className="w-full px-5 py-2 bg-gray-200 rounded-lg mb-2">
+//                     Profile
+//                   </button>
+//                 </Link>
+//                 <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="w-full px-5 py-2 bg-red-500 text-white rounded-lg">
+//                   Logout
+//                 </button>
+//               </div>
+//             ) : (
+//               <Link href="/register">
+//                 <button onClick={() => setIsMobileMenuOpen(false)} className="px-5 py-2 bg-primary text-white rounded-lg">Sign In</button>
+//               </Link>
+//             )}
 //           </div>
 //         </div>
 //       )}
@@ -114,17 +175,22 @@
 
 
 
+
 "use client";
 import React, { useState, useEffect } from "react";
 import logo from "@/assets/logo/dating-logo.png";
-import userIcon from "@/assets/logo/user.png"; // User icon for logged-in users
+import userIcon from "@/assets/logo/user.png";
 import Image from "next/image";
 import Link from "next/link";
-import { FiMenu, FiX } from "react-icons/fi"; 
+import { FiMenu, FiX } from "react-icons/fi";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store"; // Import RootState type
+import { RootState } from "@/redux/store";
 import { useAppDispatch } from "@/redux/hooks";
-import { logoutUser } from "@/redux/features/auth/authSlice";
+import { logoutUser, loggedUser } from "@/redux/features/auth/authSlice";
+import Cookies from "js-cookie";
+import { ImageBaseUrl } from "@/redux/features/blog/ImageBaseUrl";
+import { useGetMyProfileQuery } from "@/redux/features/profile/profileApi";
+import { useParams } from "next/navigation";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -138,18 +204,35 @@ const navLinks = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); 
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  
+  // const {id} = useParams()
+
+  const { data, error } = useGetMyProfileQuery({});
+ 
+
+  const user = data?.data.attributes
+  console.log(`now login user`,user);
 
   const dispatch = useAppDispatch();
-  const user = useSelector((state: RootState) => state.auth.user); // Get user state from Redux
+  // const user = useSelector((state: RootState) => state.auth.user); // Ensure this reflects the latest user data
+ 
+
+
+  useEffect(() => {
+    // Check cookies for existing user data on page load
+    const token = Cookies.get("token");
+    const userData = Cookies.get("user") ? JSON.parse(Cookies.get("user") as string) : null;
+    const refreshToken = Cookies.get("refreshToken");
+
+    if (token && userData && refreshToken) {
+      dispatch(loggedUser({ user: userData, token, refreshToken }));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -159,18 +242,15 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    dispatch(logoutUser()); // Clear Redux user state
+    dispatch(logoutUser());
+    Cookies.remove("token");
+    Cookies.remove("user");
+    Cookies.remove("refreshToken");
   };
 
   return (
-    <header
-      className={`w-full h-[105px] fixed top-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white/70 backdrop-blur-md" : "bg-transparent"
-        }`}
-    >
-      <nav
-        className="w-full max-w-[1400px] mx-auto px-4 md:px-8 flex justify-between items-center h-full"
-        role="navigation"
-      >
+    <header className={`w-full h-[105px] fixed top-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white/70 backdrop-blur-md" : "bg-transparent"}`}>
+      <nav className="w-full max-w-[1400px] mx-auto px-4 md:px-8 flex justify-between items-center h-full">
         {/* Logo */}
         <Link href="/">
           <Image src={logo} alt="logo" width={130} height={80} />
@@ -187,55 +267,50 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* User Section: Show Sign In or User Icon */}
+        {/* User Section */}
         <div className="hidden md:block relative">
           {user ? (
-            // If user is logged in, show user icon with dropdown menu
             <div className="relative">
-              <button
-                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                className="focus:outline-none"
-              >
+              <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
                 <Image
-                  src={userIcon}
+                  src={user?.profileImage ? `${ImageBaseUrl}${user?.profileImage}` : userIcon}
                   alt="User"
                   width={40}
                   height={40}
-                  className="rounded-full cursor-pointer"
+                  className="w-[40px] h-[40px] rounded-full cursor-pointer"
                 />
               </button>
 
-              {/* User Dropdown Menu */}
               {isUserMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
-                  <Link href="/MyProfile">
+                  <Link href="/my-profile">
                     <p className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</p>
                   </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  >
+                  <Link href="/my-jobs">
+                    <p className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Jobs</p>
+                  </Link>
+                  <Link href="/my-saveJobs">
+                    <p className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Save Jobs</p>
+                  </Link>
+                  <Link href="/faq">
+                    <p className="px-4 py-2 hover:bg-gray-100 cursor-pointer">FAQ</p>
+                  </Link>
+                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer">
                     Logout
                   </button>
                 </div>
               )}
             </div>
           ) : (
-            // If user is not logged in, show Sign In button
             <Link href="/register">
-              <button className="px-5 py-2 bg-primary text-white rounded-lg">
-                Sign In
-              </button>
+              <button className="px-5 py-2 bg-primary text-white rounded-lg">Sign In</button>
             </Link>
           )}
         </div>
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden flex items-center">
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-2xl"
-          >
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-2xl">
             {isMobileMenuOpen ? <FiX /> : <FiMenu />}
           </button>
         </div>
@@ -247,11 +322,7 @@ const Navbar = () => {
           <ul className="flex flex-col items-center gap-4 py-4">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <Link
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-primary"
-                >
+                <Link href={link.href} onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary">
                   {link.name}
                 </Link>
               </li>
@@ -263,38 +334,24 @@ const Navbar = () => {
             {user ? (
               <div className="flex flex-col items-center">
                 <Image
-                  src={userIcon}
+                  src={user?.profileImage ? `${ImageBaseUrl}${user?.profileImage}` : userIcon}
                   alt="User"
                   width={40}
                   height={40}
                   className="rounded-full mb-2"
                 />
-                <Link href="/MyProfile">
-                  <button
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="w-full px-5 py-2 bg-gray-200 rounded-lg mb-2"
-                  >
+                <Link href="/my-profile">
+                  <button onClick={() => setIsMobileMenuOpen(false)} className="w-full px-5 py-2 bg-gray-200 rounded-lg mb-2">
                     Profile
                   </button>
                 </Link>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full px-5 py-2 bg-red-500 text-white rounded-lg"
-                >
+                <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="w-full px-5 py-2 bg-red-500 text-white rounded-lg">
                   Logout
                 </button>
               </div>
             ) : (
               <Link href="/register">
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="px-5 py-2 bg-primary text-white rounded-lg"
-                >
-                  Sign In
-                </button>
+                <button onClick={() => setIsMobileMenuOpen(false)} className="px-5 py-2 bg-primary text-white rounded-lg">Sign In</button>
               </Link>
             )}
           </div>
@@ -305,4 +362,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

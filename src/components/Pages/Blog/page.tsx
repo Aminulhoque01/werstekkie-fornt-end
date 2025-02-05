@@ -176,82 +176,137 @@ export default function BlogPage() {
         <div className="min-h-screen px-4 py-8 w-[80%] m-auto mt-20">
             <h1 className="text-3xl font-bold text-center">Welcome to Our Blog!</h1>
             <p className="text-gray-600 text-center max-w-xl mx-auto mb-6 mt-5">
-                Discover our latest blog posts and industry insights.
+                Whether you're searching for your dream job or looking to hire top talent, our platform is designed to deliver exceptional results. With a commitment to innovation and trust, we are reshaping the way people find and fill opportunities.
             </p>
 
             {/* Featured Blogs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 lg:w-[80%] m-auto mb-20">
-                {blogs.slice(0, 2).map((post: any, index: number) => (
-                    <div key={index} className="bg-white shadow-md p-4 border rounded-lg">
-                        <Image
-                            src={getFullImageUrl(blogs[0]?.featureImage)}
-                            alt="Blog Image"
-                            width={600}
-                            height={400}
-                            className="rounded-lg"
-                        />
 
-                        <div className="py-5">
-                            <p className="text-gray-500 text-sm mt-2">
-                                {new Date(post.createdAt).toLocaleDateString()}
-                            </p>
-                            <div className="flex space-x-2 mt-1">
-                                {post.tag.map((tag: string, i: number) => (
-                                    <span key={i} className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                            <h2 className="font-semibold text-lg mt-2">{post.title}</h2>
-                            <p className="text-gray-600 text-lg mt-1 line-clamp-3">
-                                {post.content?.substring(0, 100) || "No content available"}...
-                            </p>
-                            <div className="mt-auto pt-4">
-                                <Link href={`/blog/${post._id}`}>
-                                    <button className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                                        Read More
-                                    </button>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* All Blogs Section */}
-            <h2 className="text-2xl font-semibold text-center mb-4">All Blogs</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 lg:w-[80%] m-auto mb-20">
-                {blogs.map((post: any, index: number) => (
-                    <div key={index} className="bg-white shadow rounded-lg p-4 border">
-                        <Image
-                            src={getFullImageUrl(blogs[0]?.featureImage)}
-                            alt="Blog Image"
-                            width={600}
-                            height={400}
-                            className="rounded-lg"
-                        />
+            {/* Recent Blog Title */}
+            <h2 className="text-1xl font-bold mb-6 text-center mt-10">Recent Blog</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 lg:w-[80%] m-auto mb-20">
+                {/* Featured Blog (Large) */}
+        
+                <div className="lg:col-span-2 bg-white shadow-md p-4 border rounded-lg">
+                    <Image
+                        src={getFullImageUrl(blogs[0]?.featureImage)}
+                        alt="Blog Image"
+                        width={800}
+                        height={500}
+                        className="rounded-lg w-full"
+                    />
+                    <Link href={`/blog/${blogs[0]._id}`}> <div className="py-5">
                         <p className="text-gray-500 text-sm mt-2">
-                            {new Date(post.createdAt).toLocaleDateString()}
+                            {new Date(blogs[0].createdAt).toLocaleDateString()}
                         </p>
                         <div className="flex space-x-2 mt-1">
-                            {post.tag.map((tag: string, i: number) => (
+                            <div> {blogs[0].tag.map((tag: string, i: number) => (
                                 <span key={i} className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
                                     {tag}
                                 </span>
-                            ))}
+
+                            ))}</div>
+                            <div><span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
+                                {blogs[0].category}
+                            </span></div>
                         </div>
-                        <h3 className="font-medium text-md mt-2">{post.title}</h3>
-                        <p className="text-gray-600 text-sm mt-1">
-                            {post.content?.substring(0, 100) || "No content available"}...
+                        <h2 className="font-semibold text-lg mt-2">{blogs[0].title}</h2>
+                        <p className="text-gray-600 text-lg mt-1 line-clamp-3">
+                            {blogs[0].content?.substring(0, 150) || "No content available"}...
                         </p>
-                        <Link href={`/blog/${post._id}`}>
-                            <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                                Read More
-                            </button>
-                        </Link>
+
+                    </div></Link>
+
+                </div>
+
+                {/* Smaller Blogs (Stacked) */}
+                <div className="flex flex-col space-y-4">
+                    {blogs.slice(1, 4).map((post: any, index: number) => (
+                        <div key={index} className="bg-white shadow-md p-4 border rounded-lg flex">
+                            <Image
+                                src={getFullImageUrl(post.featureImage)}
+                                alt="Blog Image"
+                                width={120}
+                                height={80}
+                                className="rounded-lg w-[30%] object-cover"
+                            />
+                            <Link href={`/blog/${post._id}`}> <div className="ml-4 flex flex-col justify-between">
+                                <h3 className="font-semibold text-sm">{post.title}</h3>
+                                <p className="text-gray-500 text-xs">
+                                    {new Date(blogs[0].createdAt).toLocaleDateString()}
+                                </p>
+                                <div className="flex space-x-2 mt-1">
+                                    <div> {blogs[0].tag.map((tag: string, i: number) => (
+                                        <span key={i} className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
+                                            {tag}
+                                        </span>
+
+                                    ))}</div>
+                                    <div><span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
+                                        {post.category}
+                                    </span></div>
+                                </div>
+
+                                <p className="text-gray-600 text-xs line-clamp-2">
+                                    {post.content?.substring(0, 80) || "No content available"}...
+                                </p>
+
+
+
+                            </div></Link>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+
+            {/* All Blogs Section */}
+            <h2 className="text-2xl font-semibold text-center mb-4">All Blogs</h2>
+
+
+
+            <div className="w-full max-w-[1300px] mx-auto">
+                {blogs.map((post: any, index: number) => (
+                    <div key={index} className="bg-white shadow rounded-lg p-4 border flex items-center mb-4">
+                        {/* Blog Image */}
+                        <Image
+                            src={getFullImageUrl(post.featureImage)}
+                            alt="Blog Image"
+                            width={150}
+                            height={100}
+                            className="rounded-lg w-[150px] h-[100px] object-cover"
+                        />
+
+                        {/* Blog Content */}
+                        <Link href={`/blog/${post._id}`}> <div className="ml-4 flex-1">
+                            <h3 className="font-semibold text-md">
+                                {post.title}
+                            </h3>
+                            <p className="text-gray-600 text-sm mt-1 line-clamp-2">
+                                {post.content?.substring(0, 150) || "No content available"}...
+                            </p>
+                            <p className="text-gray-500 text-xs mt-2">
+                                {new Date(post.createdAt).toLocaleDateString()}
+                            </p>
+
+                            <div className="flex space-x-2 mt-1">
+                                <div> {blogs[0].tag.map((tag: string, i: number) => (
+                                    <span key={i} className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
+                                        {tag}
+                                    </span>
+
+                                ))}</div>
+                                <div><span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
+                                    {post.category}
+                                </span></div>
+                            </div>
+
+                        </div></Link>
                     </div>
                 ))}
             </div>
+
+
+
 
             {/* Pagination */}
             <div className="flex justify-center space-x-2 mb-20">

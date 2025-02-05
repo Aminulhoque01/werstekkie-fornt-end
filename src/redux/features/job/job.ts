@@ -24,6 +24,7 @@ const alljobsearchApi = baseApi.injectEndpoints({
                 };
             },
         }),
+        
     }),
 });
 

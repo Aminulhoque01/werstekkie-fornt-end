@@ -8,6 +8,7 @@ const profileApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags:["MYprofile"]
     }),
     updateProfileImage: builder.mutation({
       query: (data) => ({
@@ -15,15 +16,17 @@ const profileApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags:["MYprofile"]
     }),
+
     getMyProfile: builder.query({
-      query: (id) => ({
-        url: `/user/${id}`,
+      query: () => ({
+        url:`/user/profile`,
         method: "GET",
       }),
+      providesTags:["MYprofile"]
     }),
   }),
 });
 
-export const { useUpdateProfileMutation, useUpdateProfileImageMutation, useGetMyProfileQuery } =
-  profileApi;
+export const { useUpdateProfileMutation, useUpdateProfileImageMutation, useGetMyProfileQuery } =profileApi;

@@ -1,52 +1,48 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import Cookies from "cookie";
+import Cookies from "js-cookie";
 
 interface AuthState {
   user: Record<string, unknown> | null;
   token: string | null;
+  refreshToken: string | null;
 }
 
 const initialState: AuthState = {
   user: null,
   token: null,
+  refreshToken: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    loggedUser: (
-      state,
-      action: PayloadAction<{
-        user: AuthState["user"];
-        token: string;
-        refreshToken: string;
-      }>
-    ) => {
+    loggedUser: (state, action: PayloadAction<AuthState>) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
-      // Save user and token to cookies (client-side)
-      Cookies.serialize("user", JSON.stringify(action.payload.user), {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7, // 1 week
-      });
-      Cookies.serialize("token", action.payload.token, {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7,
-      });
+      state.refreshToken = action.payload.refreshToken;
+
+      // Save in cookies (only if value is not null)
+      if (action.payload.user) {
+        Cookies.set("user", JSON.stringify(action.payload.user), { expires: 7 });
+      }
+      if (action.payload.token) {
+        Cookies.set("token", action.payload.token, { expires: 7 });
+      }
+      if (action.payload.refreshToken) {
+        Cookies.set("refreshToken", action.payload.refreshToken, { expires: 7 });
+      }
     },
     logoutUser: (state) => {
       state.user = null;
       state.token = null;
-      // Remove user and token from cookies (client-side)
-      Cookies.serialize("user", "", {
-        httpOnly: true,
-        maxAge: 0,
-      });
-      Cookies.serialize("token", "", {
-        httpOnly: true,
-        maxAge: 0,
-      });
+      state.refreshToken = null;
+
+      // Remove cookies
+      Cookies.remove("user");
+      Cookies.remove("token");
+      Cookies.remove("refreshToken");
+
       if (typeof window !== "undefined") {
         window.location.reload();
       }
@@ -54,6 +50,7 @@ const authSlice = createSlice({
     updatedUser: (state, action: PayloadAction<AuthState["user"]>) => {
       if (state.user) {
         state.user = { ...state.user, ...action.payload };
+        Cookies.set("user", JSON.stringify(state.user), { expires: 7 });
       }
     },
   },
