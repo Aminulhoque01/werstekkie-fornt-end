@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Collapse, Button } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import { useGetFaqQuery } from '@/redux/features/faq/faqApi';
 
 const faqData = [
     {
@@ -20,6 +21,8 @@ const faqData = [
 
 export default function FAQSection() {
     const [activeKey, setActiveKey] = useState(['0']);
+  
+    
 
     return (
         <div className="bg-gray-100 min-h-screen flex flex-col items-center py-10 px-4 mt-20">
@@ -54,3 +57,8 @@ export default function FAQSection() {
         </div>
     );
 }
+
+
+
+
+

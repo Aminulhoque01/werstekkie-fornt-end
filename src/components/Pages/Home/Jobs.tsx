@@ -5,10 +5,10 @@ import Link from "next/link";
 
 const Jobs = () => {
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-5 md:py-16">
       {/* Heading */}
       <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-center">
-        Featured Jobs
+        React Jobs
       </h1>
       <p className="text-sm sm:text-base md:text-lg text-center py-2">
         Apply for your best job today

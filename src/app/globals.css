@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 *{
-  font-family: "Open_Sans", serif;
+  font-family: "Open_Sans", "Open Sans";
   font-weight: 500;
   font-style: normal;
 }
