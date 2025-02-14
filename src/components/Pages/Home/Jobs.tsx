@@ -5,17 +5,17 @@ import Link from "next/link";
 
 const Jobs = () => {
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-5 md:py-16">
+    <section className="max-w-[1400px] mx-auto p-8 sm:px-6 lg:px-8 py-5 md:py-16">
       {/* Heading */}
       <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-center">
-        React Jobs
+        Recent Jobs
       </h1>
       <p className="text-sm sm:text-base md:text-lg text-center py-2">
         Apply for your best job today
       </p>
 
       {/* Job Card List */}
-      <div className="mt-8">
+      <div className="mt-8 ">
         <JobCard />
       </div>
 

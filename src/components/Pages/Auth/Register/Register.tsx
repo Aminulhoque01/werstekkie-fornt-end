@@ -1,19 +1,13 @@
 "use client";
-import logo from "@/assets/logo/dating-logo.png";
-import authBannerImage from "@/assets/auth/dating-auth.png";
 import InputComponent from "@/components/ui/InputComponent";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { RegisterFormValues } from "@/types/authTypes";
 import { Checkbox, Form } from "antd";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import sniginpic from "@/assets/singnpic.jpg"
-
-import Button from "@/components/ui/Button"
-
-
+import sniginpic from "@/assets/singnpic.jpg";
+import Button from "@/components/ui/Button";
 
 const Register = () => {
   const router = useRouter();
@@ -24,48 +18,44 @@ const Register = () => {
 
     try {
       const res = await registerUser(registrationData).unwrap();
-      console.log(res)
+      console.log(res);
 
       toast.success(res.message);
-      router.push(
-        `/verify-email?email=${registrationData.email}&type=register`
-      );
-      // router.push("/add-photos");
+      router.push(`/verify-email?email=${registrationData.email}&type=register`);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div className="flex h-full md:h-screen w-full bg-gradient-to-r from-[#B0C3E7] to-[#89A6D3] " style={{
-      backgroundImage: `url(${sniginpic.src})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",}}>
-      
+    <div
+      className="flex h-full md:h-screen w-full"
+      style={{
+        backgroundImage: `url(${sniginpic.src})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Background Overlay */}
+      <div
+        className="absolute top-0 left-0 w-full h-full"
+        style={{
+          backgroundColor: "rgba(0, 0, 255, 0.6)", // Blue background with transparency
+        }}
+      ></div>
+
       {/* Left Side */}
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-12 lg:px-24 py-16 m-auto">
-        <div className="w-full max-w-xl bg-[#7E8CA4] rounded-lg shadow-lg px-8 py-6">
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-12 lg:px-24 py-16 m-auto z-10 relative">
+        <div className="w-full max-w-xl bg-white rounded-lg shadow-lg px-8 py-6">
           <div className="text-center mb-8 space-y-2">
-            {/* <div className="w-28 h-28 mx-auto relative">
-              <Image
-                src={sniginpic}
-                alt="1PLUS1 Logo"
-                layout="fill"
-                className="object-contain"
-              />
-            </div> */}
-            <h2 className="text-3xl font-semibold text-white mt-4">
-              Create Your Account
-            </h2>
-            <p className="text-white">Join us and find your match today!</p>
+            <h2 className="text-3xl font-semibold text-black mt-4">Create Your Account</h2>
+            <p className="text-black">Join us and find your match today!</p>
           </div>
-          <Form layout="vertical"  onFinish={onFinish}>
+          <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
               label="Full Name"
               name="fullName"
-              rules={[
-                { required: true, message: "Please enter your full name" },
-              ]}
+              rules={[{ required: true, message: "Please enter your full name" }]}
             >
               <InputComponent placeholder="Full Name" />
             </Form.Item>
@@ -90,7 +80,7 @@ const Register = () => {
             </Form.Item>
 
             <Form.Item>
-              <Checkbox className="text-white">
+              <Checkbox className="text-black">
                 I accept the Terms of Service and Privacy Policy.
               </Checkbox>
             </Form.Item>
@@ -99,7 +89,7 @@ const Register = () => {
               Register
             </Button>
           </Form>
-          <p className="text-center text-sm text-white mt-6">
+          <p className="text-center text-sm text-black mt-6">
             Already have an account?{" "}
             <Link href="/login" className="text-primary hover:underline">
               Login
@@ -107,13 +97,12 @@ const Register = () => {
           </p>
         </div>
       </div>
-      {/* Right Side */}
-      
     </div>
   );
 };
 
 export default Register;
+
 
 
 

@@ -8,18 +8,18 @@ import Link from "next/link";
 const AboutUs = () => {
   return (
     <div className="w-full mt-20">
-      <div className="bg-gray-50 min-h-screen">
-        {/* Main Container */}
-        <div className="max-w-7xl mx-auto px-6 py-10">
-          {/* Header Section */}
+      <div className="bg-gray-50 min-h-screen mt-10">
+         
+        <div className="max-w-[1400px] px-4 md:px-8 mx-auto px-6 py-10">
+         
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            {/* Left Text Section */}
+            
             <div>
               <h1 className="text-4xl font-bold text-gray-800 mb-4 leading-tight">
                 Empowering Careers, <br /> Enabling Success
               </h1>
               <p className="text-gray-600 mb-6">
-                Whether you're searching for your dream job or looking to hire top
+                Whether you&apos;re searching for your dream job or looking to hire top
                 talent, our platform is designed to deliver exceptional results.
                 With a commitment to innovation and trust, we are reshaping the
                 way people find and fill opportunities.
@@ -33,24 +33,23 @@ const AboutUs = () => {
               </Link>
             </div>
 
-            {/* Right Image */}
+            
             <div className="flex justify-center">
               <Image src={aboutUs} alt={"about"} className="rounded-lg shadow-md" />
             </div>
           </div>
 
-          {/* Spacer */}
+         
           <div className="my-12"></div>
 
-          {/* Two-Column Section */}
+          
           <div className="grid grid-cols-1 lg:grid-cols-2  items-center">
-            {/* Left Image */}
+            
             <div className="flex justify-center">
 
               <Image src={aboutUs2} alt={"about"} className="rounded-lg shadow-md" />
             </div>
-
-            {/* Right Text Section */}
+ 
             <div className="bg-white p-8">
               <h2 className="text-blue-600 font-semibold text-sm uppercase mb-2">
                 Find Jobs
@@ -73,9 +72,6 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
-
-
-
     </div>
   );
 };

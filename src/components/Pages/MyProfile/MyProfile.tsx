@@ -1,17 +1,15 @@
-
-
 "use client";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Camera } from "lucide-react";
 import { useUpdateProfileMutation, useUpdateProfileImageMutation } from "@/redux/features/profile/profileApi";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { RootState } from "@/redux/store"; // Import the RootState type
 
 export default function ProfileEdit() {
-  // ✅ Always call hooks at the top
-  const user = useSelector((state: any) => state.auth.user);
+  // Use the properly typed selector
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   const [updateProfileImage] = useUpdateProfileImageMutation();
@@ -24,54 +22,53 @@ export default function ProfileEdit() {
     newPassword: "",
   });
 
-  const [profileImage, setProfileImage] = useState<string>(user?.profileImage); // Set initial profile image from user
+  const [profileImage, setProfileImage] = useState<string>(typeof user?.profileImage === 'string' ? user.profileImage : "/profile-placeholder.png");
 
-  console.log(profileImage)
-  // ✅ Fetch user data and populate the form
   useEffect(() => {
     if (user) {
       setFormData({
-        fullName: user.fullName || "",
-        email: user.email || "",
-        phone: user.phone || "",
+        fullName: typeof user.fullName === 'string' ? user.fullName : "",
+        email: typeof user.email === 'string' ? user.email : "",
+        phone: typeof user.phone === 'string' ? user.phone : "",
         currentPassword: "",
         newPassword: "",
       });
 
-      setProfileImage(user.profileImage || "/profile-placeholder.png"); // Use existing image from user data
+      setProfileImage(typeof user.profileImage === 'string' ? user.profileImage : "/profile-placeholder.png");
     }
   }, [user]);
 
-  // ✅ Handle input field change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Handle profile update submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await updateProfile({ id: user._id, ...formData }).unwrap();
-      toast.success("Profile updated successfully!");
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      toast.error("Failed to update profile.");
+    if (user) {
+      try {
+        await updateProfile({ id: user._id, ...formData }).unwrap();
+        toast.success("Profile updated successfully!");
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        toast.error("Failed to update profile.");
+      }
+    } else {
+      toast.error("User is not logged in.");
     }
   };
 
-  // ✅ Handle profile image upload
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const imageFile = event.target.files[0];
-      const profileImage = URL.createObjectURL(imageFile); // Local URL for preview
-      setProfileImage(profileImage); // Show preview before uploading
-      
+      const profileImage = URL.createObjectURL(imageFile);  
+      setProfileImage(profileImage);  
+
       const formData = new FormData();
       formData.append("profileImage", imageFile);
 
       try {
-        const response = await updateProfileImage(formData).unwrap(); // Get server response with updated profile image URL
-        setProfileImage(response.profileImage || profileImage); // Update with new image URL from server
+        const response = await updateProfileImage(formData).unwrap();  
+        setProfileImage(response.profileImage || profileImage); 
         toast.success("Profile image updated successfully!");
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -82,12 +79,10 @@ export default function ProfileEdit() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      {/* ✅ Instead of returning early, use conditional rendering */}
       {!user ? (
         <p>Please log in to edit your profile.</p>
       ) : (
         <>
-          {/* Profile Picture Upload */}
           <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-gray-300">
             <Image
               src={profileImage}
@@ -104,7 +99,6 @@ export default function ProfileEdit() {
 
           <h2 className="text-lg font-semibold text-gray-700 mt-3">Profile Picture</h2>
 
-          {/* Form Container */}
           <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mt-4">
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
@@ -181,7 +175,3 @@ export default function ProfileEdit() {
     </div>
   );
 }
-
-
-
-

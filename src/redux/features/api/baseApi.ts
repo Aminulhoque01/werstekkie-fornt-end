@@ -1,4 +1,3 @@
-import { RootState } from "@/redux/store";
 import {
   createApi,
   fetchBaseQuery,
@@ -6,28 +5,12 @@ import {
   BaseQueryFn,
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "sonner";
-import Cookies from "js-cookie"; 
-
-// Define a base query that accesses the Redux state for the token
-// const baseQuery = fetchBaseQuery({
-//   baseUrl: `https://aminula5000.sobhoy.com/api/v1`,
-//   // baseUrl: `http://192.168.10.163:7575/api/v1`,
-//   prepareHeaders: (headers, { getState }) => {
-//     const token = (getState() as RootState).auth.token;
-
-//     if (token) {
-//       headers.set("Authorization", `Bearer ${token}`);
-//     }
-
-//     return headers;
-//   },
-// });
-
+import Cookies from "js-cookie";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `https://aminula5000.sobhoy.com/api/v1`,
   prepareHeaders: (headers) => {
-    const token = Cookies.get("token"); // Get token from cookies
+    const token = Cookies.get("token");
 
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
@@ -37,15 +20,13 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// Enhanced base query with token refresh logic
 const baseQueryWithRefreshToken: BaseQueryFn<
   string | FetchArgs,
   unknown,
   unknown
 > = async (args, api, extraOptions) => {
-  let result = await baseQuery(args, api, extraOptions);
+  const result = await baseQuery(args, api, extraOptions); // Changed 'let' to 'const'
 
-  // Handle various error statuses
   if (result?.error?.status === 404) {
     toast.error(
       (result.error.data as { message: string })?.message || "Not Found"
@@ -62,16 +43,16 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     );
   }
   if (result?.error?.status === 401) {
-    window.location.href = "/login";
+    console.log(result.error)
+    // window.location.href = "/login";
   }
 
   return result;
 };
 
-// Create the base API
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ["company","MyJob","SavedJobs","MYprofile"],
+  tagTypes: ["company", "MyJob", "SavedJobs", "MYprofile"],
   endpoints: () => ({}),
 });

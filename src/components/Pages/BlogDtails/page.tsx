@@ -1,31 +1,29 @@
 'use client';
-
 import Image from 'next/image';
-import BlogImage from "@/assets/blogImage.jpg"
+import BlogImage from "@/assets/blogImage.jpg";
 import { useParams } from 'next/navigation';
 import { useGetSingleblogQuery } from '@/redux/features/blog/blog';
 import { ImageBaseUrl } from '@/redux/features/blog/ImageBaseUrl';
+import Brands from '../Home/Brand';
 
 export default function BlogPost() {
     const { id } = useParams();
 
-
     const { data, error, isLoading } = useGetSingleblogQuery(id, {
-        skip: !id, // Prevent API call if id is missing
+        skip: !id,
     });
 
     if (isLoading) return <p>Loading blog details...</p>;
     if (error) return <p>Error loading blog details.</p>;
     if (!data?.data) return <p>No blog found.</p>;
 
-    const blog = data?.data?.attributes; // Access blog details
+    const blog = data?.data?.attributes;
     console.log("Blog Details:", blog);
 
-    // Helper function for image URL
     const getFullImageUrl = (path: string | undefined) => {
-        if (!path) return "/default-image.jpg"; // If `featureImage` is missing, use a default image
-        if (path.startsWith("http")) return path; // If it's already a full URL, return as is
-        return `${ImageBaseUrl}${path}`; // Convert relative path to absolute URL
+        if (!path) return "/default-image.jpg";
+        if (path.startsWith("http")) return path;
+        return `${ImageBaseUrl}${path}`;
     };
 
     if (blog.length > 0) {
@@ -33,17 +31,9 @@ export default function BlogPost() {
         console.log("Feature Image URL:", getFullImageUrl(featureImage));
     }
 
-
-
     return (
-        <div className="min-h-screen px-4 py-8  mt-10">
+        <div className="min-h-screen px-4 py-8 mt-10">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 py-6 mt-10 w-full md:w-[650%] lg:w-[65%] m-auto">
-
-                {/* Left Side - Blog Content */}
-
-
-
-                {/* Blog Image */}
                 <div className="lg:col-span-2">
                     <Image
                         src={getFullImageUrl(blog?.featureImage)}
@@ -56,12 +46,11 @@ export default function BlogPost() {
                         {new Date(blog?.createdAt).toLocaleDateString()}
                     </p>
 
-                    {/* Blog Category & Tags */}
                     <div className="flex space-x-2 mt-2">
                         <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
                             {blog?.category}
                         </span>
-                        {blog?.tag.map((tag: any, index: number) => (
+                        {blog?.tag.map((tag: string, index: number) => (
                             <span
                                 key={index}
                                 className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"
@@ -71,10 +60,11 @@ export default function BlogPost() {
                         ))}
                     </div>
 
-                    {/* Blog Title */}
-                    <h1 className="text-3xl font-bold mt-4">{blog?.title}</h1>
+                    {/* Escape single quotes in the title */}
+                    <h1 className="text-3xl font-bold mt-4">
+                        {blog?.title?.replace(/'/g, '&#39;')}
+                    </h1>
 
-                    {/* Blog Content */}
                     <div className="w-full p-6 bg-white">
                         <div className="space-y-6 text-gray-800 leading-relaxed">
                             <p className="mt-4">{blog?.content}</p>
@@ -85,12 +75,8 @@ export default function BlogPost() {
                     </div>
                 </div>
 
-
-                {/* Right Side - Sidebar */}
                 <div className="space-y-8 ">
-                    {/* Search Box */}
                     <div className="w-full p-4 bg-white shadow-md rounded-lg space-y-6">
-                        {/* Search Box */}
                         <div className="relative">
                             <input
                                 type="text"
@@ -100,7 +86,6 @@ export default function BlogPost() {
                             <span className="absolute top-2 right-3 text-gray-400">🔍</span>
                         </div>
 
-                        {/* Category Section */}
                         <div className="bg-gray-100 p-4 rounded-lg">
                             <h3 className="font-semibold mb-3">Category</h3>
                             <div className="space-y-2">
@@ -116,7 +101,6 @@ export default function BlogPost() {
                             </div>
                         </div>
 
-                        {/* Tags */}
                         <div>
                             <h3 className="font-semibold mb-3">Tags</h3>
                             <div className="flex flex-wrap gap-2">
@@ -133,7 +117,6 @@ export default function BlogPost() {
                             </div>
                         </div>
 
-                        {/* Latest Blog Section */}
                         <div>
                             <h3 className="font-semibold mb-3">Latest Blog</h3>
                             <div className="space-y-3">
@@ -148,7 +131,7 @@ export default function BlogPost() {
                                         />
                                         <div className="text-sm">
                                             <h4 className="font-semibold">5 Essential Tips to Land Your Dream Job in 2024</h4>
-                                            <p className="text-gray-500 text-xs">In today's competitive job market...</p>
+                                            <p className="text-gray-500 text-xs">In today&apos;s competitive job market...</p>
                                         </div>
                                     </div>
                                 ))}
@@ -156,17 +139,12 @@ export default function BlogPost() {
                         </div>
                     </div>
 
-
-                    {/* Job Reminder */}
                     <div className="bg-blue-300 p-6 rounded-lg shadow-md text-white relative">
-                        {/* Circle Design Element */}
                         <div className="absolute top-2 right-4 w-8 h-8 bg-blue-600 rounded-full"></div>
 
-                        {/* Heading & Description */}
                         <h3 className="font-semibold text-lg">Set Job reminder</h3>
                         <p className="text-sm mt-1">Enter your email address and get new job alert weekly</p>
 
-                        {/* Email Input Field */}
                         <div className="mt-4 relative">
                             <input
                                 type="email"
@@ -176,12 +154,12 @@ export default function BlogPost() {
                             <span className="absolute left-3 top-2.5 text-gray-500">📧</span>
                         </div>
 
-                        {/* Submit Button */}
                         <button className="mt-4 w-full bg-blue-700 text-white py-2 rounded-md hover:bg-blue-800 transition">
                             Submit
                         </button>
                     </div>
                 </div>
+                
             </div>
         </div>
     );

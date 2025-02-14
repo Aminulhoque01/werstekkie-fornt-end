@@ -4,7 +4,7 @@ import { Checkbox } from "antd";
 import { AiOutlinePlus } from "react-icons/ai";
 import Image from "next/image";
 import { FaTrashAlt } from "react-icons/fa";
-import Link from "next/link";
+
 
 export type Photo = {
   id: string;

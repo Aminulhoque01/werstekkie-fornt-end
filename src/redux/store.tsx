@@ -3,14 +3,14 @@ import { combineReducers } from "redux";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
-import wishlistReducer from "./features/wishlist/wishlistSlice"; 
+// import wishlistReducer from "./features/wishlist/wishlistSlice"; 
 import { baseApi } from "./features/api/baseApi"; 
 
 // Combine reducers
 const rootReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
-  wishlist: wishlistReducer, 
+  
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

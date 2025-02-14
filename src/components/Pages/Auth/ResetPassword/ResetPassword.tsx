@@ -9,9 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import sniginpic from "@/assets/singnpic.jpg"
-
-
+import sniginpic from "@/assets/singnpic.jpg";
 
 interface ResetPasswordFormValues {
   password: string;
@@ -33,17 +31,29 @@ const ResetPassword = () => {
       toast.success(res.message);
       router.push("/login");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   return (
-    <div className="flex h-full md:h-screen w-full bg-gradient-to-r from-[#B0C3E7] to-[#7E8CA4]" style={{
-      backgroundImage: `url(${sniginpic.src})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",}}>
+    <div
+      className="flex h-full md:h-screen w-full"
+      style={{
+        backgroundImage: `url(${sniginpic.src})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Background Color Overlay */}
+      <div
+        className="absolute top-0 left-0 w-full h-full"
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.4)", // Adjust color and opacity for the overlay
+        }}
+      ></div>
+
       {/* Left Side */}
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-12 lg:px-24 py-16 m-auto">
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-12 lg:px-24 py-16 m-auto z-10 relative">
         <div className="w-full max-w-xl bg-[#7E8CA4] rounded-lg shadow-lg px-8 py-6">
           <div className="text-center mb-8">
             <div className="w-28 h-28 mx-auto relative space-y-2">
@@ -108,10 +118,7 @@ const ResetPassword = () => {
             </Button>
           </Form>
           <div className="mt-5 text-center">
-            <Link
-              href="/login"
-              className=" hover:underline ml-1 text-white"
-            >
+            <Link href="/login" className="hover:underline ml-1 text-white">
               Back to Login
             </Link>
           </div>

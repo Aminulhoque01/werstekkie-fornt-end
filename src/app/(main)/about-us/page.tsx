@@ -1,3 +1,4 @@
+
 import AboutUs from "@/components/Pages/AboutUs/AboutUs";
 import { Metadata } from "next";
 import React from "react";
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
   keywords: ["about us", "page", "example"],
 };
 const page = () => {
-  return <AboutUs/>
+  return <AboutUs />
 };
 
 export default page;

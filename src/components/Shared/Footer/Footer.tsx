@@ -5,8 +5,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="w-full max-w-[1400px] mx-auto  px-5 py-16 m-auto">
-      <div className="w-full md:container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className=" max-w-[1400px] px-4 md:px-8 py-16 m-auto mt-10">
+      <div className=" grid grid-cols-1 md:grid-cols-4 gap-16">
         {/* Logo and Description */}
         <div>
           <Link href="/">
@@ -20,7 +20,7 @@ const Footer = () => {
         </div>
 
         {/* User Navigation */}
-        <div>
+        <div className="">
           <h3 className="text-lg font-semibold mb-4">User Navigation</h3>
           <ul className="text-sm text-gray-700 space-y-2">
             <li>
@@ -119,10 +119,11 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Section: Copyright */}
-        <div className="mt-8 text-center text-sm text-gray-500">
-          ©2025 Werkstekkie. All rights reserved.
-        </div>
+
+      </div>
+      {/* Bottom Section: Copyright */}
+      <div className="mt-8 text-center text-sm text-gray-500">
+        ©2025 Werkstekkie. All rights reserved.
       </div>
     </footer>
   );

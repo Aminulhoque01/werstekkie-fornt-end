@@ -6,19 +6,33 @@ import { FaMapLocation } from "react-icons/fa6";
 import { GoClock } from "react-icons/go";
 import { PiBagSimpleDuotone } from "react-icons/pi";
 import Link from "next/link";
+import Brands from "../Home/Brand";
+
+// Define the Job interface
+interface Job {
+  _id: string;
+  title: string;
+  salary: number;
+  company: string;
+  location: string;
+  employmentType: string;
+  posted: string;
+  description: string;
+  experinceLavel: string;
+}
 
 const BrowseJobs: React.FC = () => {
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [location, setLocation] = useState("");
   const [experinceLavel, setExperinceLavel] = useState("");
   const [workPlace, setWorkPlace] = useState("");
   const [category, setCategory] = useState("");
   const [employmentType, setEmploymentType] = useState("");
 
-  // Store the applied filters separately
   const [appliedFilters, setAppliedFilters] = useState({
     page: 1,
-    limit: 6,
+    limit: 10,
     location: "",
     experinceLavel: "",
     workPlace: "",
@@ -26,14 +40,12 @@ const BrowseJobs: React.FC = () => {
     employmentType: "",
   });
 
-  // Fetch jobs based on applied filters
-  const { data, error, isLoading } = useGetAllJobsSearchQuery(appliedFilters);
+  const { data, isLoading } = useGetAllJobsSearchQuery(appliedFilters);
 
-  // Function to apply filters when the button is clicked
   const handleApplyFilters = () => {
     setAppliedFilters({
       page,
-      limit: 6,
+      limit: 10,
       location,
       experinceLavel,
       workPlace,
@@ -42,14 +54,21 @@ const BrowseJobs: React.FC = () => {
     });
   };
 
-  // Destructure the fetched data
   const jobs = data?.data?.attributes || [];
+
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    setAppliedFilters((prev) => ({
+      ...prev,
+      page: pageNumber,
+    }));
+  };
 
   return (
     <div className="mt-20">
-      <div className=" py-8">
-        <div className="max-w-6xl mx-auto px-6">
-          {/* Title Section */}
+      <div className="py-8">
+        <div className="max-w-[1400px] px-4 md:px-8  mx-auto ">
           <div className="mb-6">
             <h1 className="text-3xl font-bold text-gray-800">
               Browse Jobs That Fit <br /> Your Future
@@ -60,9 +79,7 @@ const BrowseJobs: React.FC = () => {
             </p>
           </div>
 
-          {/* Search Form */}
-          <div className="bg-white rounded-lg shadow-md p-4 flex flex-col sm:flex-row items-center gap-4">
-            {/* Location Input */}
+          <div className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-center sm:flex-row items-center gap-8 w-full ">
             <input
               type="text"
               value={location}
@@ -71,7 +88,6 @@ const BrowseJobs: React.FC = () => {
               placeholder="Search location..."
             />
 
-            {/* Job Type Dropdown */}
             <select
               value={employmentType}
               onChange={(e) => setEmploymentType(e.target.value)}
@@ -83,7 +99,6 @@ const BrowseJobs: React.FC = () => {
               <option value="Freelance">Freelance</option>
             </select>
 
-            {/* Experience Dropdown */}
             <select
               value={experinceLavel}
               onChange={(e) => setExperinceLavel(e.target.value)}
@@ -97,7 +112,6 @@ const BrowseJobs: React.FC = () => {
               <option value="Senior Level">Expert Level</option>
             </select>
 
-            {/* Filter Button */}
             <button
               onClick={handleApplyFilters}
               className="w-full sm:w-auto bg-blue-700 text-white px-6 py-2 rounded-md hover:bg-blue-900 transition"
@@ -107,11 +121,10 @@ const BrowseJobs: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* Filters Section */}
-      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-6 mt-6">
-        <div className="w-full lg:w-1/3 ">
-          <div className="w-full max-w-sm bg-white shadow-md rounded-lg overflow-hidden sm: w-[300]">
 
+      <div className="max-w-[1400px] px-4 md:px-8  mx-auto  flex flex-col lg:flex-row gap-6 mt-6">
+        <div className="w-full lg:w-1/3">
+          <div className="w-full max-w-sm bg-white shadow-md rounded-lg overflow-hidden sm: w-[300]">
             <div className="bg-blue-700 text-white p-6">
               <h3 className="font-bold text-lg">Set Job Reminder</h3>
               <p className="text-sm mt-2">
@@ -128,9 +141,8 @@ const BrowseJobs: React.FC = () => {
                 </button>
               </div>
             </div>
-            {/* Filters Section */}
+
             <div className="p-6">
-              {/* Location Filter */}
               <div className="mb-4">
                 <label className="block font-semibold mb-2 text-gray-700">Location</label>
                 <input
@@ -142,11 +154,10 @@ const BrowseJobs: React.FC = () => {
                 />
               </div>
 
-              {/* Category Filter */}
               <div className="mb-4">
                 <label className="block font-semibold mb-2 text-gray-700">Category</label>
                 <div className="flex gap-4 mt-4">
-                  {["Design", "Development", "Fenance"].map((cat) => (
+                  {["Design", "Development", "Finance"].map((cat) => (
                     <div key={cat} className="flex items-center">
                       <input
                         type="checkbox"
@@ -161,7 +172,6 @@ const BrowseJobs: React.FC = () => {
                 </div>
               </div>
 
-              {/* Job Type Filter */}
               <div className="mb-4">
                 <label className="block font-semibold mb-2 text-gray-700">Job Type</label>
                 <div className="flex gap-4 mt-4">
@@ -180,7 +190,6 @@ const BrowseJobs: React.FC = () => {
                 </div>
               </div>
 
-              {/* Workplace Filter */}
               <div className="mb-4">
                 <label className="block font-semibold mb-2 text-gray-700">Work Place</label>
                 <div className="flex gap-4 mt-4">
@@ -199,9 +208,6 @@ const BrowseJobs: React.FC = () => {
                 </div>
               </div>
 
-
-
-              {/* Experience Level Filter */}
               <div className="mb-4">
                 <label className="block font-semibold mb-2 text-gray-700">Experience Level</label>
                 <div className="grid grid-cols-2 gap-4">
@@ -220,21 +226,21 @@ const BrowseJobs: React.FC = () => {
                 </div>
               </div>
 
-              {/* Apply Filter Button */}
               <button onClick={handleApplyFilters} className="w-full bg-blue-600 hover:bg-blue-800 text-white py-2 rounded-lg">
                 Apply Filter
               </button>
             </div>
           </div>
         </div>
+
         {/* Job Listings Section */}
-        <div className="max-w-7xl mx-auto px-6 mt-6">
+        <div className="max-w-7xl mx-auto  mt-6">
           {isLoading && <p>Loading jobs...</p>}
 
           {!isLoading && jobs.length === 0 && <p>No jobs found.</p>}
 
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-1 gap-6">
-            {jobs.map((job: any) => (
+            {jobs.map((job: Job) => (
               <Link key={job._id} href={`/browser-job/${job._id}`}>
                 <div className="border rounded-lg shadow-sm p-4 bg-white hover:shadow-md transition-shadow duration-300 cursor-pointer">
                   <div className="flex justify-between items-center">
@@ -279,7 +285,21 @@ const BrowseJobs: React.FC = () => {
             ))}
           </div>
         </div>
+
       </div>
+      {/* Pagination */}
+      <div className="flex justify-center space-x-2 mb-20 mt-5">
+        {[1, 2, 3, 4].map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            className={`w-10 h-10 flex items-center justify-center rounded-full font-semibold ${currentPage === page ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-700"}`}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+      <Brands></Brands>
     </div>
   );
 };

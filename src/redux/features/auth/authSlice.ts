@@ -42,10 +42,6 @@ const authSlice = createSlice({
       Cookies.remove("user");
       Cookies.remove("token");
       Cookies.remove("refreshToken");
-
-      if (typeof window !== "undefined") {
-        window.location.reload();
-      }
     },
     updatedUser: (state, action: PayloadAction<AuthState["user"]>) => {
       if (state.user) {

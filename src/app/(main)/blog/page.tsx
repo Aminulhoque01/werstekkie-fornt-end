@@ -1,6 +1,5 @@
-import AboutUs from "@/components/Pages/AboutUs/AboutUs";
+
 import BlogPage from "@/components/Pages/Blog/page";
-import FAQSection from "@/components/Pages/Blog/page";
 import { Metadata } from "next";
 import React from "react";
 
