@@ -1,3 +1,5 @@
+
+
 "use client"
 import { Bookmark, MapPin, Clock, Briefcase } from "lucide-react";
 import Image from "next/image";
@@ -38,7 +40,7 @@ export default function JobList() {
         );
     };
 
-    const getFullImageUrl = (path:any) => {
+    const getFullImageUrl = (path: string | undefined): string => {
         if (!path) return "/default-image.jpg";  
         if (path.startsWith("http")) return path;  
         return `${ImageBaseUrl}${path}`; 
@@ -48,7 +50,7 @@ export default function JobList() {
     if (isError) return <p>Error fetching applied jobs!</p>;
 
     return (
-        <div className="max-w-[1400px] px-4 md:px-8 mx-auto px-4 py-10 mt-20">
+        <div className="max-w-[1400px] px-4 md:px-8 mx-auto py-10 mt-20">
             <h2 className="text-2xl font-semibold mb-4 mt-10">My Applied Jobs</h2>
 
             {applyjob.length === 0 ? (
@@ -71,7 +73,6 @@ export default function JobList() {
                             <div className="flex-shrink-0">
                                 {job.jobId?.image ? (
                                     <Image
-                                       
                                         src={getFullImageUrl(job.jobId.image)}
                                         alt="Company Logo"
                                         width={64}

@@ -7,6 +7,9 @@ import { toast } from "sonner";
 import Button from "@/components/ui/Button";
 import { useForgotPasswordMutation } from "@/redux/features/auth/authApi";
 import sniginpic from "@/assets/singnpic.jpg";
+import logo from "@/assets/logo/dating-logo.png";
+import Image from "next/image";
+
 
 interface LoginFormValues {
   email: string;
@@ -47,6 +50,11 @@ const ForgotPassword = () => {
         {/* Card with white background */}
         <div className="w-full max-w-xl bg-white rounded-lg shadow-lg px-8 py-6">
           <div className="text-center mb-8">
+            <div className="flex justify-center">
+              <Image src={logo} alt="logo" width={180} height={80} className="" />
+            </div>
+
+          
             <h2 className="text-3xl font-semibold text-black mt-4">
               Forgot Your Password?
             </h2>

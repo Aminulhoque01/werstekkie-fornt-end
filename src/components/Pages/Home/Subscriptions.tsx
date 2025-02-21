@@ -4,8 +4,11 @@ const SubscribeSection: React.FC = () => {
   return (
     <div className=" bg-blue-700 lg:h-[250] text-white rounded-lg p-6 sm:p-10 flex flex-col sm:flex-row justify-between items-center relative overflow-hidden">
       {/* Background Bubbles */}
-      <div className="absolute top-4 left-4 w-16 h-16 bg-blue-500 opacity-50 rounded-full"></div>
-      <div className="absolute top-10 right-10 w-20 h-20 bg-blue-500 opacity-50 rounded-full"></div>
+      <div className="absolute  left-4 w-20 h-20 bg-blue-500 opacity-50 rounded-full"></div>
+      
+      <div className="absolute  top-[-2px] right-[-2rem] w-20 h-20 bg-blue-500 opacity-80 rounded-full"></div>
+      <div className="absolute top-5 left-4  w-10 h-10 bg-blue-500 opacity-50 rounded-full"></div>
+      <div className="absolute top-10  right-12 w-10 h-10 bg-blue-500 opacity-50 rounded-full"></div>
 
       {/* Content */}
       <div className="z-10 text-center sm:text-left">

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useGetAllBlogsQuery } from "@/redux/features/blog/blog";
+import { useGetAllPublishedBlogQuery } from "@/redux/features/blog/blog";
 import { ImageBaseUrl } from "@/redux/features/blog/ImageBaseUrl";
 
 // Define the type for a blog post
@@ -20,7 +20,7 @@ export default function BlogPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 6;
 
-    const { data, error, isLoading } = useGetAllBlogsQuery({
+    const { data, error, isLoading } = useGetAllPublishedBlogQuery({
         page: currentPage,
         limit: postsPerPage,
     });
@@ -30,9 +30,9 @@ export default function BlogPage() {
     console.log(blogs)
 
     const getFullImageUrl = (path?: string) => {
-        if (!path) return "/default-image.jpg";  
-        if (path.startsWith("http")) return path;  
-        return `${ImageBaseUrl}${path}`; 
+        if (!path) return "/default-image.jpg";
+        if (path.startsWith("http")) return path;
+        return `${ImageBaseUrl}${path}`;
     };
 
     if (isLoading) return <p>Loading...</p>;
@@ -48,7 +48,7 @@ export default function BlogPage() {
 
             <h2 className="text-xl font-bold mb-6 text-center mt-10">Recent Blogs</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 lg:w-[80%] m-auto mb-20">
-                
+
                 <div className="lg:col-span-2 bg-white shadow-md p-4 border rounded-lg">
                     <Image
                         src={getFullImageUrl(blogs[0]?.featureImage)}
@@ -63,15 +63,9 @@ export default function BlogPage() {
                                 {new Date(blogs[0]?.createdAt || "").toLocaleDateString()}
                             </p>
                             <div className="flex space-x-2 mt-1">
-                                {blogs[0]?.tag?.length > 0 ? (
-                                    blogs[0]?.tag.map((tag: string, i: number) => (
-                                        <span key={i} className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
-                                            {tag}
-                                        </span>
-                                    ))
-                                ) : (
-                                    <span className="text-gray-500 text-xs">No Tags</span>
-                                )}
+                                <span  className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
+                                    {blogs[0]?.tag}
+                                </span>
                                 <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
                                     {blogs[0]?.category || "Uncategorized"}
                                 </span>
@@ -101,15 +95,9 @@ export default function BlogPage() {
                                         {new Date(post.createdAt || "").toLocaleDateString()}
                                     </p>
                                     <div className="flex space-x-2 mt-1">
-                                        {post.tag?.length > 0 ? (
-                                            post.tag.map((tag: string, i: number) => (
-                                                <span key={i} className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
-                                                    {tag}
-                                                </span>
-                                            ))
-                                        ) : (
-                                            <span className="text-gray-500 text-xs">No Tags</span>
-                                        )}
+                                        <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
+                                            {post.tag}
+                                        </span>
                                         <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
                                             {post.category || "Uncategorized"}
                                         </span>
@@ -136,7 +124,7 @@ export default function BlogPage() {
                             height={100}
                             className="rounded-lg w-[150px] h-[100px] object-cover"
                         />
-                       
+
                         <Link href={`/blog/${post._id}`}>
                             <div className="ml-4 flex-1">
                                 <h3 className="font-semibold text-md">{post.title || "No Title"}</h3>

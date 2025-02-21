@@ -4,7 +4,7 @@ import BlogImage from "@/assets/blogImage.jpg";
 import { useParams } from 'next/navigation';
 import { useGetSingleblogQuery } from '@/redux/features/blog/blog';
 import { ImageBaseUrl } from '@/redux/features/blog/ImageBaseUrl';
-import Brands from '../Home/Brand';
+
 
 export default function BlogPost() {
     const { id } = useParams();
@@ -38,8 +38,8 @@ export default function BlogPost() {
                     <Image
                         src={getFullImageUrl(blog?.featureImage)}
                         alt="Blog Image"
-                        width={600}
-                        height={400}
+                        width={800}
+                        height={700}
                         className="rounded-lg"
                     />
                     <p className="text-gray-500 text-sm mt-4">
@@ -50,14 +50,7 @@ export default function BlogPost() {
                         <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
                             {blog?.category}
                         </span>
-                        {blog?.tag.map((tag: string, index: number) => (
-                            <span
-                                key={index}
-                                className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"
-                            >
-                                {tag}
-                            </span>
-                        ))}
+                    
                     </div>
 
                     {/* Escape single quotes in the title */}

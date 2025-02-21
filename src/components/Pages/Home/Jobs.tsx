@@ -3,6 +3,8 @@ import Image from "next/image";
 import JobCard from "./JobCard";
 import Link from "next/link";
 
+
+
 const Jobs = () => {
   return (
     <section className="max-w-[1400px] mx-auto p-8 sm:px-6 lg:px-8 py-5 md:py-16">
@@ -15,9 +17,7 @@ const Jobs = () => {
       </p>
 
       {/* Job Card List */}
-      <div className="mt-8 ">
-        <JobCard />
-      </div>
+      <JobCard />
 
       {/* Highlighted Section */}
       <div className="flex flex-col lg:flex-row items-center justify-between bg-white rounded-lg shadow-lg p-6 sm:p-8 lg:p-12 max-w-[1400px] mx-auto mt-10 lg:mt-16">

@@ -1,12 +1,14 @@
 "use client";
 import { useGetAllJobsSearchQuery } from "@/redux/features/alljobSearch/alljobSearch";
 import { VscSave } from "react-icons/vsc";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMapLocation } from "react-icons/fa6";
 import { GoClock } from "react-icons/go";
 import { PiBagSimpleDuotone } from "react-icons/pi";
 import Link from "next/link";
 import Brands from "../Home/Brand";
+import { Empty, Image, Spin } from "antd";
+import { ImageBaseUrl } from "@/redux/features/alljobSearch/ImageBaseUrl";
 
 // Define the Job interface
 interface Job {
@@ -19,19 +21,39 @@ interface Job {
   posted: string;
   description: string;
   experinceLavel: string;
+  image: string
 }
 
 const BrowseJobs: React.FC = () => {
-  const [page] = useState(1);
+  // const [page] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [location, setLocation] = useState("");
-  const [experinceLavel, setExperinceLavel] = useState("");
-  const [workPlace, setWorkPlace] = useState("");
-  const [category, setCategory] = useState("");
-  const [employmentType, setEmploymentType] = useState("");
+  const [location, setLocation] = useState('');
+  const [category, setCategory] = useState<string[]>([]);
+  const [employmentType, setEmploymentType] = useState<string[]>([]);
+  const [workPlace, setWorkPlace] = useState<string[]>([]);
+  const [experinceLavel, setExperinceLavel] = useState<string[]>([]);
+
+
+
+  const getFullImageUrl = (path: string | undefined): string => {
+    if (!path) return "/default-image.jpg";
+    if (path.startsWith("http")) return path;
+    return `${ImageBaseUrl}${path}`;
+  };
+
+
+
+  const handleToggle = (arr: any, setArr: any, value: any) => {
+    if (arr.includes(value)) {
+      setArr(arr.filter((item: any) => item !== value));
+    } else {
+      setArr([...arr, value]);
+    }
+  };
+
 
   const [appliedFilters, setAppliedFilters] = useState({
-    page: 1,
+    currentPage: 1,
     limit: 10,
     location: "",
     experinceLavel: "",
@@ -44,13 +66,13 @@ const BrowseJobs: React.FC = () => {
 
   const handleApplyFilters = () => {
     setAppliedFilters({
-      page,
+      currentPage,
       limit: 10,
       location,
-      experinceLavel,
-      workPlace,
-      category,
-      employmentType,
+      experinceLavel: experinceLavel.join(', '),
+      workPlace: workPlace.join(', '),
+      category: category.join(', '),
+      employmentType: employmentType.join(', '),
     });
   };
 
@@ -79,7 +101,9 @@ const BrowseJobs: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-center sm:flex-row items-center gap-8 w-full ">
+
+
+          <div className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-center sm:flex-row items-center gap-8 w-full">
             <input
               type="text"
               value={location}
@@ -90,26 +114,26 @@ const BrowseJobs: React.FC = () => {
 
             <select
               value={employmentType}
-              onChange={(e) => setEmploymentType(e.target.value)}
+              onChange={(e) => handleToggle(employmentType, setEmploymentType, e.target.value)}
               className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select Job Type</option>
               <option value="Full Time">Full Time</option>
               <option value="Part Time">Part Time</option>
-              <option value="Freelance">Freelance</option>
+
             </select>
 
             <select
               value={experinceLavel}
-              onChange={(e) => setExperinceLavel(e.target.value)}
+              onChange={(e) => handleToggle(experinceLavel, setExperinceLavel, e.target.value)}
               className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Experience Level</option>
-              <option value="Entry Level">Internship Level</option>
-              <option value="Mid Level">Junior Level</option>
-              <option value="Senior Level">Senior Level</option>
-              <option value="Senior Level">Regular Level</option>
-              <option value="Senior Level">Expert Level</option>
+              <option value="Internship">Internship Level</option>
+              <option value="Junior">Junior Level</option>
+              <option value="Regular">Regular</option>
+              <option value="Senior">Senior Level</option>
+              <option value="Expert">Expert Level</option>
             </select>
 
             <button
@@ -124,7 +148,7 @@ const BrowseJobs: React.FC = () => {
 
       <div className="max-w-[1400px] px-4 md:px-8  mx-auto  flex flex-col lg:flex-row gap-6 mt-6">
         <div className="w-full lg:w-1/3">
-          <div className="w-full max-w-sm bg-white shadow-md rounded-lg overflow-hidden sm: w-[300]">
+          <div className="mt-5  bg-white shadow-md rounded-lg overflow-hidden sm: w-[300]">
             <div className="bg-blue-700 text-white p-6">
               <h3 className="font-bold text-lg">Set Job Reminder</h3>
               <p className="text-sm mt-2">
@@ -142,6 +166,8 @@ const BrowseJobs: React.FC = () => {
               </div>
             </div>
 
+
+
             <div className="p-6">
               <div className="mb-4">
                 <label className="block font-semibold mb-2 text-gray-700">Location</label>
@@ -156,13 +182,13 @@ const BrowseJobs: React.FC = () => {
 
               <div className="mb-4">
                 <label className="block font-semibold mb-2 text-gray-700">Category</label>
-                <div className="flex gap-4 mt-4">
-                  {["Design", "Development", "Finance"].map((cat) => (
+                <div className="gap-4 mt-4">
+                  {["Legal", "Finance", "Social", "Government", "ICT"].map((cat) => (
                     <div key={cat} className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={category === cat}
-                        onChange={() => setCategory(cat)}
+                        checked={category.includes(cat)}
+                        onChange={() => handleToggle(category, setCategory, cat)}
                         id={cat}
                         className="h-4 w-4 text-blue-500 focus:ring-blue-500"
                       />
@@ -174,13 +200,13 @@ const BrowseJobs: React.FC = () => {
 
               <div className="mb-4">
                 <label className="block font-semibold mb-2 text-gray-700">Job Type</label>
-                <div className="flex gap-4 mt-4">
+                <div className="gap-4 mt-4">
                   {["Full Time", "Part Time"].map((type) => (
                     <div key={type} className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={employmentType === type}
-                        onChange={() => setEmploymentType(type)}
+                        checked={employmentType.includes(type)}
+                        onChange={() => handleToggle(employmentType, setEmploymentType, type)}
                         id={type}
                         className="h-4 w-4 text-blue-500 focus:ring-blue-500"
                       />
@@ -197,8 +223,8 @@ const BrowseJobs: React.FC = () => {
                     <div key={place} className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={workPlace === place}
-                        onChange={() => setWorkPlace(place)}
+                        checked={workPlace.includes(place)}
+                        onChange={() => handleToggle(workPlace, setWorkPlace, place)}
                         id={place}
                         className="h-4 w-4 text-blue-500 focus:ring-blue-500"
                       />
@@ -215,8 +241,8 @@ const BrowseJobs: React.FC = () => {
                     <div key={level} className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={experinceLavel === level}
-                        onChange={() => setExperinceLavel(level)}
+                        checked={experinceLavel.includes(level)}
+                        onChange={() => handleToggle(experinceLavel, setExperinceLavel, level)}
                         id={level}
                         className="h-4 w-4 text-blue-500 focus:ring-blue-500"
                       />
@@ -235,53 +261,135 @@ const BrowseJobs: React.FC = () => {
 
         {/* Job Listings Section */}
         <div className="max-w-7xl mx-auto  mt-6">
-          {isLoading && <p>Loading jobs...</p>}
+          {isLoading && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+              <Spin tip="Loading jobs..." size="large" />
+            </div>
+          )}
 
-          {!isLoading && jobs.length === 0 && <p>No jobs found.</p>}
+          {!isLoading && jobs.length === 0 && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+              <Empty description="No jobs found." />
+            </div>
+          )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-1 gap-6">
+
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
             {jobs.map((job: Job) => (
               <Link key={job._id} href={`/browser-job/${job._id}`}>
-                <div className="border rounded-lg shadow-sm p-4 bg-white hover:shadow-md transition-shadow duration-300 cursor-pointer">
-                  <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-semibold">{job.title}</h2>
-                    <span className="text-blue-600 font-bold">${job.salary}</span>
+                <div
+                  key={job._id}
+                  className="border rounded-lg shadow-lg p-6 bg-white hover:shadow-xl transition-shadow duration-300 relative"
+                >
+                  {/* Right Side: Job Salary (Positioned Top-Right) */}
+                  <div className="absolute top-2 mt-5 right-2 text-blue-600 font-bold">
+                    ${job.salary}
                   </div>
-                  <div className="text-gray-500 text-sm mt-2 flex flex-wrap items-center space-x-5">
-                    <div>
-                      <span className="text-blue-500">{job.company}</span>
+
+                  <div className="flex items-center space-x-4">
+                    {/* Left Side: Image */}
+                    <div className="flex-shrink-0">
+                      <Image
+                        src={getFullImageUrl(job.image)}
+                        alt="Company Logo"
+                        width={64}
+                        height={64}
+                        className="w-16 h-16 rounded-full"
+                      />
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <FaMapLocation />
-                      <div>{job.location}</div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <PiBagSimpleDuotone />
-                      <div>{job.employmentType}</div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <GoClock />
-                      <div>{job.posted}</div>
+
+                    <div className="flex-grow lg:flex justify-between items-center space-x-4">
+                      {/* Middle: Job Details */}
+                      <div className="sm:flex-grow">
+                        <h2 className="text-xl font-semibold">{job.title}</h2>
+                        <div className="flex flex-wrap items-center space-x-2 text-gray-500 text-sm">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-medium">{job.company}</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <FaMapLocation />
+                            <span>{job.location}</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <PiBagSimpleDuotone />
+                            <span>{job.employmentType}</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <GoClock />
+                            <span>{job.posted}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <p className="text-gray-700 text-sm mt-4 line-clamp-3">
-                    {job.description}
-                  </p>
-                  <div className="flex items-center justify-between py-5">
-                    <div className="flex items-center space-x-5">
-                      <div className="border rounded-md px-3 py-2">
-                        {job.experinceLavel}
-                      </div>
-                      <div className="border rounded-md px-3 py-2">
-                        {job.employmentType}
-                      </div>
-                    </div>
-                    <div className="justify-end">
-                      <VscSave />
-                    </div>
+
+                  <p className="text-gray-700 text-sm mt-4 line-clamp-3">{job.description}</p>
+
+                  <div className="flex items-center space-x-5 py-4">
+                    <div className="border rounded-md px-4 py-2 text-sm">{job.experinceLavel}</div>
+                    <div className="border rounded-md px-4 py-2 text-sm">{job.employmentType}</div>
                   </div>
                 </div>
               </Link>
+            ))}
+          </div>
+
+
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-6">
+            {jobs.map((job: Job) => (
+              <div
+                key={job._id}
+                className="border rounded-lg shadow-lg p-6 bg-white hover:shadow-xl transition-shadow duration-300 relative"
+              >
+                {/* Right Side: Job Salary (Positioned Top-Right) */}
+                <div className="absolute top-2 mt-5 right-2 text-blue-600 font-bold">
+                  ${job.salary}
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  {/* Left Side: Image */}
+                  <div className="flex-shrink-0">
+                    <Image
+                      src={getFullImageUrl(job.image)}
+                      alt="Company Logo"
+                      width={64}
+                      height={64}
+                      className="w-16 h-16 rounded-full"
+                    />
+                  </div>
+
+                  <div className="flex-grow lg:flex justify-between items-center space-x-4">
+                    {/* Middle: Job Details */}
+                    <div className="sm:flex-grow">
+                      <h2 className="text-xl font-semibold">{job.title}</h2>
+                      <div className="flex flex-wrap items-center space-x-2 text-gray-500 text-sm">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-medium">{job.company}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <FaMapLocation />
+                          <span>{job.location}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <PiBagSimpleDuotone />
+                          <span>{job.employmentType}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <GoClock />
+                          <span>{job.posted}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-gray-700 text-sm mt-4 line-clamp-3">{job.description}</p>
+
+                <div className="flex items-center space-x-5 py-4">
+                  <div className="border rounded-md px-4 py-2 text-sm">{job.experinceLavel}</div>
+                  <div className="border rounded-md px-4 py-2 text-sm">{job.employmentType}</div>
+                </div>
+              </div>
             ))}
           </div>
         </div>

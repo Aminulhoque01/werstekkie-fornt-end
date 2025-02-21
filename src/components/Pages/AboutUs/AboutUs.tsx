@@ -4,13 +4,14 @@ import aboutUs from "@/assets/about/about.jpg";
 import aboutUs2 from "@/assets/about/about2.jpg";
 import Image from "next/image";
 import Link from "next/link";
+import SubscribeSection from "../Home/Subscriptions";
 
 const AboutUs = () => {
   return (
     <div className="w-full mt-20">
-      <div className="bg-gray-50 min-h-screen mt-10">
+      <div className="mt-10">
          
-        <div className="max-w-[1400px] px-4 md:px-8 mx-auto px-6 py-10">
+        <div className="max-w-[1400px] px-4 md:px-8 mx-auto py-10">
          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             
@@ -69,6 +70,9 @@ const AboutUs = () => {
                 </Link>
               </div>
             </div>
+          </div>
+          <div className="mt-10">
+          <SubscribeSection/>
           </div>
         </div>
       </div>

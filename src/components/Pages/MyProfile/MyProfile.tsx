@@ -78,7 +78,7 @@ export default function ProfileEdit() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
       {!user ? (
         <p>Please log in to edit your profile.</p>
       ) : (

@@ -4,14 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   font-family: "Open_Sans", "Open Sans";
   font-weight: 500;
   font-style: normal;
 }
 
-
-
-
-
-                   
+.clip-wave {
+  clip-path: polygon(0% 0, 0% 80%, 0% 100%, 95% 0%);
+  width: 100%;
+  z-index: 0;
+}

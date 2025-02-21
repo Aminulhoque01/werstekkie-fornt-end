@@ -6,15 +6,15 @@ import React from "react";
 
 const Home = () => {
   return (
-    <section className="w-full  bg-gradient-to-t from-[#F5F9FF] to-[#F5F9FF]">
+    <section className="">
+      
       <HeroSection />
       <Jobs />
       <SuccessStory />
-      {/* <HowItWorks /> */}
-      {/* <Subscriptions/> */}
-      {/* <Tips/> */}
     </section>
   );
 };
 
 export default Home;
+
+

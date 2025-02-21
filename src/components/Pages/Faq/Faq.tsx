@@ -1,53 +1,64 @@
-'use client';
-import { useState } from 'react';
-import { Button } from 'antd';
-import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+"use client";
+import { useState } from "react";
+import { Button } from "antd";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import { useGetFaqQuery } from "@/redux/features/faq/faqApi";
 
-const faqData = [
-    {
-        question: 'How do I create an account on the website?',
-        answer:
-            "To create an account, click on the &#39;Sign Up&#39; button on the homepage. You&#39;ll need to provide your email address, create a password, and fill in some basic information like your name and contact details.",
-    },
-    { question: 'How do I search for jobs?', answer: "To create an account, click on the &#39;Sign Up&#39; button on the homepage. You&#39;ll need to provide your email address, create a password, and fill in some basic information like your name and contact details.", },
-    { question: 'How do I apply for a job?', answer: "To create an account, click on the &#39;Sign Up&#39; button on the homepage. You&#39;ll need to provide your email address, create a password, and fill in some basic information like your name and contact details.", },
-    { question: 'Can I apply for multiple jobs at once?', answer: "To create an account, click on the &#39;Sign Up&#39; button on the homepage. You&#39;ll need to provide your email address, create a password, and fill in some basic information like your name and contact details.", },
-    { question: 'How will I know if my application has been received?', answer: "To create an account, click on the &#39;Sign Up&#39; button on the homepage. You&#39;ll need to provide your email address, create a password, and fill in some basic information like your name and contact details.", },
-    { question: 'What should I do if I forget my password?', answer: "To create an account, click on the &#39;Sign Up&#39; button on the homepage. You&#39;ll need to provide your email address, create a password, and fill in some basic information like your name and contact details.", },
-    { question: 'How do I set up job alerts?', answer: "To create an account, click on the &#39;Sign Up&#39; button on the homepage. You&#39;ll need to provide your email address, create a password, and fill in some basic information like your name and contact details.", },
-];
+interface FaqItem {
+  question: string;
+  answer: string;
+}
 
 export default function FAQSection() {
-    const [activeKey, setActiveKey] = useState(['0']);
-    return (
-        <div className="bg-gray-100 min-h-screen flex flex-col items-center py-10 px-4 mt-20">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Frequently asked questions?</h2>
-            <div className="w-full max-w-3xl bg-white shadow-md rounded-lg overflow-hidden ">
-                {faqData.map((item, index) => (
-                    <div key={index} className="border-b">
-                        <button
-                            onClick={() =>
-                                setActiveKey((prev) => (prev.includes(String(index)) ? [] : [String(index)]))
-                            }
-                            className={`w-full text-left p-4 flex justify-between items-center font-medium ${activeKey.includes(String(index)) ? 'bg-blue-600 text-white' : 'text-gray-800'
-                                }`}
-                        >
-                            {item.question}
-                            {activeKey.includes(String(index)) ? <MinusOutlined /> : <PlusOutlined />}
-                        </button>
-                        {activeKey.includes(String(index)) && item.answer && (
-                            <div className="p-4 text-gray-700 bg-gray-50">{item.answer}</div>
-                        )}
-                    </div>
-                ))}
-                <div className="mt-10 text-center">
-                    <p className="text-gray-600">Still have questions?</p>
-                    <p className="text-blue-600 font-medium">Can&#39;t find the answer you&#39;re looking for? Please chat to our friendly team.</p>
-                    <Button type="primary" className="mt-4 px-6 py-2 text-white bg-blue-600 hover:bg-blue-700 mb-10">
-                        Get In Touch
-                    </Button>
-                </div>
+  const [activeKey, setActiveKey] = useState<string[]>(["0"]);
+  const { data, isLoading, isError } = useGetFaqQuery({});
+
+  if (isLoading) {
+    return <div>Loading FAQs...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching FAQs.</div>;
+  }
+
+  const faq: FaqItem[] = data?.data || []; // Ensure it's an array of FaqItem
+
+  return (
+    <div className=" flex flex-col items-center py-10 px-4 mt-20">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+      <div className="w-full max-w-3xl bg-white shadow-md rounded-lg overflow-hidden">
+        {faq.length > 0 ? (
+          faq.map((item, index) => (
+            <div key={index} className="border-b">
+              <button
+                onClick={() =>
+                  setActiveKey((prev) => (prev.includes(String(index)) ? [] : [String(index)]))
+                }
+                className={`w-full text-left p-4 flex justify-between items-center font-medium ${
+                  activeKey.includes(String(index)) ? "bg-blue-600 text-white" : "text-gray-800"
+                }`}
+              >
+                {item.question}
+                {activeKey.includes(String(index)) ? <MinusOutlined /> : <PlusOutlined />}
+              </button>
+              {activeKey.includes(String(index)) && item.answer && (
+                <div className="p-4 text-gray-700 bg-gray-50">{item.answer}</div>
+              )}
             </div>
+          ))
+        ) : (
+          <div className="p-4 text-center text-gray-700">No FAQs available.</div>
+        )}
+        <div className="mt-10 text-center">
+          <p className="text-gray-600">Still have questions?</p>
+          <p className="text-blue-600 font-medium">
+            Can&apos;t find the answer you&apos;re looking for? Please chat with our friendly team.
+          </p>
+          <Button type="primary" className="mt-4 px-6 py-2 text-white bg-blue-600 hover:bg-blue-700 mb-10">
+            Get In Touch
+          </Button>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

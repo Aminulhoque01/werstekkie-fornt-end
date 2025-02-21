@@ -2,20 +2,19 @@ import Image from "next/image";
 import logo from "@/assets/logo/dating-logo.png";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaFacebookF, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import Link from "next/link";
+ 
 
 const Footer = () => {
   return (
-    <footer className=" max-w-[1400px] px-4 md:px-8 py-16 m-auto mt-10">
-      <div className=" grid grid-cols-1 md:grid-cols-4 gap-16">
+    <footer className="bg-[#F5F5F5]  px-4 md:px-8 py-16  mt-10 z-[99999]">
+      <div className=" max-w-[1400px] m-auto grid grid-cols-1 md:grid-cols-4 gap-16">
         {/* Logo and Description */}
         <div>
           <Link href="/">
             <Image src={logo} alt="logo" width={130} height={80} />
           </Link>
           <p className="mt-4 text-sm text-gray-700">
-            Where Real People Make Real Connections. Join our Christian dating
-            platform built on honesty, respect, and meaningful relationships.
-            Your next great connection starts here.
+          Finding your dream job starts with understanding your passion, skills, and career goals. In today's competitive job market, it's essential to tailor your resume, build a strong professional network, and stay updated with industry trends. Start your journey today and take the next step toward your dream career!
           </p>
         </div>
 
@@ -24,8 +23,8 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-4">User Navigation</h3>
           <ul className="text-sm text-gray-700 space-y-2">
             <li>
-              <Link href="/discover" className="hover:underline">
-                Discover
+              <Link href="/browser-job" className="hover:underline">
+               BrowseJobs
               </Link>
             </li>
             <li>
@@ -56,8 +55,8 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link href="/dating-tips" className="hover:underline">
-                Online Dating Tips
+              <Link href="/blog" className="hover:underline">
+               Blog
               </Link>
             </li>
             <li>

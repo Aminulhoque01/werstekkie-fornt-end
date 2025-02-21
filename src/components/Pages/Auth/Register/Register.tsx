@@ -1,5 +1,6 @@
 "use client";
 import InputComponent from "@/components/ui/InputComponent";
+import logo from "@/assets/logo/dating-logo.png";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { RegisterFormValues } from "@/types/authTypes";
 import { Checkbox, Form } from "antd";
@@ -8,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import sniginpic from "@/assets/singnpic.jpg";
 import Button from "@/components/ui/Button";
+import Image from "next/image";
 
 const Register = () => {
   const router = useRouter();
@@ -47,9 +49,14 @@ const Register = () => {
       {/* Left Side */}
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-12 lg:px-24 py-16 m-auto z-10 relative">
         <div className="w-full max-w-xl bg-white rounded-lg shadow-lg px-8 py-6">
-          <div className="text-center mb-8 space-y-2">
-            <h2 className="text-3xl font-semibold text-black mt-4">Create Your Account</h2>
-            <p className="text-black">Join us and find your match today!</p>
+
+          <div className="flex justify-center">
+            <Image src={logo} alt="logo" width={180} height={80} className="" />
+          </div>
+
+          <div className=" mb-8 space-y-2">
+            <h2 className="text-3xl font-semibold text-black mt-4">Register Your Account</h2>
+
           </div>
           <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
@@ -81,7 +88,7 @@ const Register = () => {
 
             <Form.Item>
               <Checkbox className="text-black">
-                I accept the Terms of Service and Privacy Policy.
+                I accept <span className="text-blue-500">Terms & Condition</span>
               </Checkbox>
             </Form.Item>
 

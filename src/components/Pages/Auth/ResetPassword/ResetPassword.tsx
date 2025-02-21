@@ -57,12 +57,11 @@ const ResetPassword = () => {
         <div className="w-full max-w-xl bg-[#7E8CA4] rounded-lg shadow-lg px-8 py-6">
           <div className="text-center mb-8">
             <div className="w-28 h-28 mx-auto relative space-y-2">
-              <Image
-                src={logo}
-                alt="1PLUS1 Logo"
-                layout="fill"
-                className="object-contain"
-              />
+            <div className="flex justify-center">
+              <Image src={logo} alt="logo" width={180} height={80} className="" />
+            </div>
+
+            
             </div>
             <h2 className="text-3xl font-semibold text-white mt-4">
               Reset Your Password
